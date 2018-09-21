@@ -1,2 +1,11 @@
 ---
 # tasks file for postfix
+- name: postfix install
+  package:
+    name: postfix
+    state: latest
+  register: result
+  until: result is success
+  retries: 3
+  delay: 5
+
