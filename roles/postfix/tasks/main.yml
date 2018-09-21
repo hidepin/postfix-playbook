@@ -9,6 +9,23 @@
   retries: 3
   delay: 5
 
+- name: create Maildir for root
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0700
+    state: directory
+  with_items:
+    - /root/Maildir
+    - /root/Maildir/new
+    - /root/Maildir/cur
+    - /root/Maildir/tmp
+    - /etc/skel/Maildir
+    - /etc/skel/Maildir/new
+    - /etc/skel/Maildir/cur
+    - /etc/skel/Maildir/tmp
+
 - block:
   - name: postfix setting
     template:
