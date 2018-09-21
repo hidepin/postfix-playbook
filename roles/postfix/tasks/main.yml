@@ -36,6 +36,7 @@
       mode: 0644
       backup: yes
     register: is_main_cf_setting
+    notify: postfix restart
 
   always:
   - name: postfix backup settings
@@ -44,3 +45,10 @@
       - "{{ is_main_cf_setting|default() }}"
     loop_control:
       loop_var: backup_item
+
+- name: postfix enable
+  service:
+    name: postfix
+    state: started
+    enabled: yes
+    daemon_reload: yes
