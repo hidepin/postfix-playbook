@@ -74,6 +74,7 @@ mail_owner = postfix
 #
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
+myhostname = {{ ansible_fqdn }}
 
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
@@ -81,6 +82,7 @@ mail_owner = postfix
 # parameters.
 #
 #mydomain = domain.tld
+mydomain = {{ ansible_domain }}
 
 # SENDING MAIL
 # 
@@ -113,7 +115,8 @@ mail_owner = postfix
 #inet_interfaces = all
 #inet_interfaces = $myhostname
 #inet_interfaces = $myhostname, localhost
-inet_interfaces = localhost
+###inet_interfaces = localhost
+inet_interfaces = all
 
 # Enable IPv4, and IPv6 if supported
 inet_protocols = all
@@ -161,7 +164,8 @@ inet_protocols = all
 #
 # See also below, section "REJECTING MAIL FOR UNKNOWN LOCAL USERS".
 #
-mydestination = $myhostname, localhost.$mydomain, localhost
+###mydestination = $myhostname, localhost.$mydomain, localhost
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
 #	mail.$mydomain, www.$mydomain, ftp.$mydomain
@@ -264,6 +268,7 @@ unknown_local_recipient_reject_code = 550
 #mynetworks = 168.100.189.0/28, 127.0.0.0/8
 #mynetworks = $config_directory/mynetworks
 #mynetworks = hash:/etc/postfix/network_table
+mynetworks = {{ [ansible_default_ipv4.network, ansible_default_ipv4.netmask] | join('/') | ipaddr('net') }}, 127.0.0.0/8
 
 # The relay_domains parameter restricts what destinations this system will
 # relay mail to.  See the smtpd_recipient_restrictions description in

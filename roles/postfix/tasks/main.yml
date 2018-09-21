@@ -9,3 +9,21 @@
   retries: 3
   delay: 5
 
+- block:
+  - name: postfix setting
+    template:
+      src: main.cf.j2
+      dest: /etc/postfix/main.cf
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+    register: is_main_cf_setting
+
+  always:
+  - name: postfix backup settings
+    include_tasks: backup.yml
+    with_flattened:
+      - "{{ is_main_cf_setting|default() }}"
+    loop_control:
+      loop_var: backup_item
