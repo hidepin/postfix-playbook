@@ -4,6 +4,8 @@
 rhel_subscription:
   username: 'username'
   password: 'password'
+
+exec_common_role: True
 ntp_server: "{{ ansible_default_ipv4.gateway }}"
 rhel_subscription_enabled: True
 kdump_partition: "/dump"

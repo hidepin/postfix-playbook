@@ -2,7 +2,8 @@
 # file: all.yml
 - hosts: all
   roles:
-    - { role: common, when: "ansible_os_family == 'RedHat'" }
+    - { role: common, when: "ansible_os_family == 'RedHat' and exec_common_role" }
+    - { role: postfix, when: "ansible_os_family == 'RedHat'" }
 
   environment:
     "{{ proxy_env }}"
