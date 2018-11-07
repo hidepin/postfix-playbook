@@ -687,3 +687,8 @@ readme_directory = /usr/share/doc/postfix-2.10.1/README_FILES
 
 disable_vrfy_command = yes
 smptd_helo_required = yes
+
+message_size_limit = 10485760
+transport_retry_time = 60s
+bounce_queue_lifetime = 1h
+maximal_queue_lifetime = 5h
